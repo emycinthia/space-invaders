@@ -1,5 +1,6 @@
 import Grid from "./classes/Grid.js";
 import Invader from "./classes/Invader.js";
+import Particle from "./classes/Particle.js";
 import Player from "./classes/Player.js";
 import Projectile from "./classes/Projectile.js";
 
@@ -16,6 +17,7 @@ const grid = new Grid(3, 6);
 
 const playerProjectiles = [];
 const invadersProjectiles = [];
+const particles = [];
 
 const keys = {
   left: false,
@@ -35,6 +37,13 @@ const drawProjectiles = () => {
   });
 };
 
+const drawParticles = () => {
+  particles.forEach((particle) => {
+    particle.draw(ctx);
+    particle.update();
+  });
+};
+
 const clearProjectiles = () => {
   playerProjectiles.forEach((projectile, index) => {
     if (projectile.position.y <= 0) {
@@ -43,10 +52,40 @@ const clearProjectiles = () => {
   });
 };
 
+const clearParticles = () => {
+  particles.forEach((particle, index) => {
+    if (particle.opacity <= 0) {
+      particles.splice(index, 1);
+    }
+  });
+};
+
+const createExplosion = (position, size, color) => {
+  for (let e = 0; e < size; e++) {
+    const particle = new Particle(
+      { x: position.x, y: position.y },
+      { x: Math.random() - 0.5 * 1.5, y: Math.random() - 0.5 * 1.5 },
+      2,
+      color
+    );
+
+    particles.push(particle);
+  }
+};
+
 const checkShootInvaders = () => {
   grid.invaders.forEach((invader, invaderIndex) => {
     playerProjectiles.some((projectile, projectileIndex) => {
       if (invader.hit(projectile)) {
+        createExplosion(
+          {
+            x: invader.position.x + invader.width / 2,
+            y: invader.position.y + invader.height / 2,
+          },
+          10,
+          "#941CFF"
+        );
+
         grid.invaders.splice(invaderIndex, 1);
         playerProjectiles.splice(projectileIndex, 1);
       }
@@ -57,13 +96,15 @@ const checkShootInvaders = () => {
 const gameLoop = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  drawParticles();
   drawProjectiles();
   clearProjectiles();
+  clearParticles();
 
   checkShootInvaders();
 
   grid.draw(ctx);
-  //grid.update();
+  grid.update();
 
   ctx.save();
 
@@ -117,12 +158,12 @@ addEventListener("keyup", (event) => {
   }
 });
 
-// setInterval(() => {
-//   const invader = grid.getRandomInvader();
+setInterval(() => {
+  const invader = grid.getRandomInvader();
 
-//   if (invader) {
-//     invader.shoot(invadersProjectiles);
-//   }
-// }, 1000);
+  if (invader) {
+    invader.shoot(invadersProjectiles);
+  }
+}, 1000);
 
 gameLoop();
