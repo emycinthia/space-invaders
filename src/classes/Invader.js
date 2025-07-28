@@ -4,25 +4,20 @@ import Projectile from "./Projectile.js";
 class Invader {
   constructor(position, velocity) {
     this.position = position;
-    this.width = 50 * 0.8;
-    this.height = 37 * 0.8;
+    this.scale = 0.8;
+    this.width = 50 * this.scale;
+    this.height = 37 * this.scale;
     this.velocity = velocity;
 
     this.image = this.getImage(PATH_INVADER_IMAGE);
   }
 
-  getImage(path) {
-    const image = new Image();
-    image.src = path;
-    return image;
+  moveRight() {
+    this.position.x += this.velocity;
   }
 
   moveLeft() {
     this.position.x -= this.velocity;
-  }
-
-  moveRight() {
-    this.position.x += this.velocity;
   }
 
   moveDown() {
@@ -31,6 +26,12 @@ class Invader {
 
   incrementVelocity(boost) {
     this.velocity += boost;
+  }
+
+  getImage(path) {
+    const image = new Image();
+    image.src = path;
+    return image;
   }
 
   draw(ctx) {
@@ -61,6 +62,19 @@ class Invader {
       projectile.position.x <= this.position.x + this.width &&
       projectile.position.y >= this.position.y &&
       projectile.position.y <= this.position.y + this.height
+    );
+  }
+
+  collied(obstacle) {
+    return (
+      (obstacle.position.x >= this.position.x &&
+        obstacle.position.x <= this.position.x + this.width &&
+        obstacle.position.y >= this.position.y &&
+        obstacle.position.y <= this.position.y + this.height) ||
+      (obstacle.position.x + obstacle.width >= this.position.x &&
+        obstacle.position.x <= this.position.x &&
+        obstacle.position.y >= this.position.y &&
+        obstacle.position.y <= this.position.y + this.height)
     );
   }
 }

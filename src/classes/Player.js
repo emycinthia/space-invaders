@@ -26,18 +26,18 @@ class Player {
     this.framesEngineSpritesCounter = INITIAL_FRAMES;
   }
 
-  getImage(path) {
-    const image = new Image();
-    image.src = path;
-    return image;
-  }
-
   moveLeft() {
     this.position.x -= this.velocity;
   }
 
   moveRight() {
     this.position.x += this.velocity;
+  }
+
+  getImage(path) {
+    const image = new Image();
+    image.src = path;
+    return image;
   }
 
   draw(ctx) {
@@ -86,7 +86,7 @@ class Player {
     const p = new Projectile(
       {
         x: this.position.x + this.width / 2 - 1,
-        y: this.position.y,
+        y: this.position.y + 2,
       },
       -10
     );
@@ -98,8 +98,9 @@ class Player {
     return (
       projectile.position.x >= this.position.x + 20 &&
       projectile.position.x <= this.position.x + 20 + this.width - 38 &&
-      projectile.position.y >= this.position.y + 22 &&
-      projectile.position.y <= this.position.y + 22 + this.height - 34
+      projectile.position.y + projectile.height >= this.position.y + 22 &&
+      projectile.position.y + projectile.height <=
+        this.position.y + 22 + this.height - 34
     );
   }
 }

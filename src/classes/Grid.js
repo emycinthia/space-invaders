@@ -1,13 +1,12 @@
 import Invader from "./Invader.js";
 
 class Grid {
-  constructor(rows, columns) {
+  constructor(rows, cols) {
     this.rows = rows;
-    this.cols = columns;
-
+    this.cols = cols;
     this.direction = "right";
     this.moveDown = false;
-
+    this.boost = 0.1;
     this.invadersVelocity = 1;
     this.invaders = this.init();
   }
@@ -20,7 +19,7 @@ class Grid {
         const invader = new Invader(
           {
             x: col * 50 + 20,
-            y: row * 37 + 20,
+            y: row * 37 + 120,
           },
           this.invadersVelocity
         );
@@ -50,7 +49,7 @@ class Grid {
     this.invaders.forEach((invader) => {
       if (this.moveDown) {
         invader.moveDown();
-        invader.incrementVelocity(0.1);
+        invader.incrementVelocity(this.boost);
         this.invadersVelocity = invader.velocity;
       }
 
