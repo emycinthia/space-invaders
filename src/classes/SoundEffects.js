@@ -43,7 +43,7 @@ class SoundEffects {
   }
 
   playNextLevelSound() {
-    this.nextLevelSoundSound.play();
+    this.nextLevelSound.play();
   }
 
   adjustVolumes() {

@@ -371,7 +371,7 @@ const restartGame = () => {
 
   invadersProjectiles.length = 0;
   gameData.score = 0;
-  gameData.level = 1;
+  gameData.level = 0;
 
   gameOverScreen.remove();
 };
