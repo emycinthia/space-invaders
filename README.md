@@ -3,6 +3,8 @@
  
 Este projeto foi feito com base no excelente tutorial do canal [Manual do Dev](https://www.youtube.com/@ManualdoDev), com o objetivo de reforçar conceitos de programação gráfica e se divertir no processo! 💻✨
 
+![Gameplay do jogo](src/assets/images/space-invaders.gif)
+
 ## 🎮 Como jogar
 - **Mover para a esquerda:** seta ⭠ ou letra "A"
 - **Mover para a direita:** seta ⭢ ou letra "D"
